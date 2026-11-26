@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CafeNora
 
-## Getting Started
+سامانه سفارش کافه — a multi-tenant SaaS for cafés. Guests scan a QR code at their table, order from the menu, and staff manage orders and checkout from a single screen.
 
-First, run the development server:
+## Stack
+
+- **Next.js 16** (App Router) + **TypeScript**
+- **Tailwind CSS v4** + **shadcn/ui** (Base UI flavor, Nova preset)
+- **PostgreSQL 16** (Docker in dev) + **Drizzle ORM**
+- **Argon2id** password hashing, cookie-based staff sessions
+- **Server-Sent Events** for the live staff order feed
+- **Nodemailer** (console mailer in dev, SMTP in prod)
+- **sharp** for menu image re-encoding
+- Farsi / RTL, Toman currency
+
+## Requirements
+
+- Node 20+
+- Docker + Docker Compose (for Postgres)
+- npm
+
+## Getting started
 
 ```bash
+# 1. install deps
+npm install
+
+# 2. copy env and fill in a session secret
+cp .env.example .env
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+# paste the output into .env as SESSION_SECRET=
+
+# 3. start Postgres
+docker compose up -d
+docker compose ps          # db should be healthy
+
+# 4. run the app
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
